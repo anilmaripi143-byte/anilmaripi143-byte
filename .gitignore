@@ -1,0 +1,9 @@
+# User photo and generated prep output
+PHOTO.jpg
+source-prepped.png
+
+# Python environment and cache files
+.venv/
+__pycache__/
+*.pyc
+"data/contributions.json" 
