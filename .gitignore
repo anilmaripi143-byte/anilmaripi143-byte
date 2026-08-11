@@ -6,4 +6,4 @@ source-prepped.png
 .venv/
 __pycache__/
 *.pyc
-"data/contributions.json" 
+data/contributions.json
