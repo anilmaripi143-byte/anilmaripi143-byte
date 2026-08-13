@@ -18,7 +18,7 @@ INFO_LINES = [
 ]
 
 SVG_WIDTH = 540
-SVG_HEIGHT = 380
+SVG_HEIGHT = 410
 BACKGROUND = "#01080f"
 CARD_BG = "#0b1220"
 CARD_BORDER = "#1d2d44"
@@ -54,14 +54,14 @@ def build_info_card_svg(output_path: Path, animated: bool = True) -> None:
     # Line 1: Separator line
     all_display_lines.append(('separator', '-' * 46))
 
-    # Next lines: key-value pairs
+    # Key-value lines
     for label, val in INFO_LINES:
         lbl_str = f"{label:<10}: "
         line_content = f'<tspan class="accent-lbl">{html.escape(lbl_str)}</tspan><tspan fill="{TEXT_COLOR}">{html.escape(val)}</tspan>'
         all_display_lines.append(('kv', line_content))
 
-    start_y = 62
-    line_height = 28
+    start_y = 66
+    line_height = 31
 
     svg.append(f'  <g class="text-base">')
 
@@ -71,11 +71,11 @@ def build_info_card_svg(output_path: Path, animated: bool = True) -> None:
 
         if kind == 'separator':
             if animated:
-                svg.append(f'    <line x1="28" y1="{y - 8}" x2="{SVG_WIDTH - 28}" y2="{y - 8}" class="separator" opacity="0">')
+                svg.append(f'    <line x1="28" y1="{y - 10}" x2="{SVG_WIDTH - 28}" y2="{y - 10}" class="separator" opacity="0">')
                 svg.append(f'      <animate attributeName="opacity" from="0" to="0.6" dur="0.3s" begin="{delay}s" fill="freeze" />')
                 svg.append(f'    </line>')
             else:
-                svg.append(f'    <line x1="28" y1="{y - 8}" x2="{SVG_WIDTH - 28}" y2="{y - 8}" class="separator" opacity="0.6" />')
+                svg.append(f'    <line x1="28" y1="{y - 10}" x2="{SVG_WIDTH - 28}" y2="{y - 10}" class="separator" opacity="0.6" />')
         else:
             if animated:
                 svg.append(f'    <g transform="translate(-16, 0)" opacity="0">')

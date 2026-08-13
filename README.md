@@ -10,12 +10,12 @@
 
 <table>
 <tr>
-<td valign="top" width="45%">
-<img src="./ascii-portrait.svg" alt="ASCII Portrait" width="370">
+<td valign="top" width="50%">
+<img src="./ascii-portrait.svg" alt="ASCII Portrait" width="430">
 </td>
 
-<td valign="top" width="55%">
-<img src="./info-card.svg" alt="Neofetch Info Card" width="490">
+<td valign="top" width="50%">
+<img src="./info-card.svg" alt="Neofetch Info Card" width="430">
 </td>
 </tr>
 </table>
