@@ -24,29 +24,25 @@ def prep_photo(input_path: Path, output_path: Path) -> None:
         print("Removing background with rembg...")
         transparent = remove(source)
 
-        # Get subject bounding box and crop to focus on head & upper torso
+        # Crop to subject bounding box (full head, neck & shoulders)
         bbox = transparent.getbbox()
         if bbox:
-            left, top, right, bottom = bbox
-            h = bottom - top
-            # Focus on head & upper torso (upper 82% of subject)
-            crop_bottom = int(top + h * 0.82)
-            transparent = transparent.crop((left, top, right, crop_bottom))
+            transparent = transparent.crop(bbox)
 
         # Composite over solid white background
         white_bg = Image.new("RGBA", transparent.size, (255, 255, 255, 255))
         composite = Image.alpha_composite(white_bg, transparent)
         gray = composite.convert("L")
 
-        # Apply OpenCV CLAHE contrast enhancement
+        # Apply OpenCV CLAHE contrast enhancement for clear features
         image_np = np.asarray(gray).astype(np.uint8)
-        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+        clahe = cv2.createCLAHE(clipLimit=2.2, tileGridSize=(8, 8))
         image_np = clahe.apply(image_np)
 
-        # Contrast stretching
-        p5, p95 = np.percentile(image_np, (5, 95))
-        if p95 > p5:
-            image_np = np.clip((image_np - p5) * 255.0 / (p95 - p5), 0, 255)
+        # Contrast stretch
+        p3, p97 = np.percentile(image_np, (3, 97))
+        if p97 > p3:
+            image_np = np.clip((image_np - p3) * 255.0 / (p97 - p3), 0, 255)
 
         output = Image.fromarray(image_np.astype(np.uint8))
         output_path.parent.mkdir(parents=True, exist_ok=True)
