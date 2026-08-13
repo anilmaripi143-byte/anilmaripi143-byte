@@ -1,4 +1,5 @@
 # User photo and generated prep output
+source-photo.jpg
 PHOTO.jpg
 source-prepped.png
 
@@ -7,3 +8,4 @@ source-prepped.png
 __pycache__/
 *.pyc
 data/contributions.json
+

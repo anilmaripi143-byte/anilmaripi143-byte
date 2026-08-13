@@ -1,5 +1,6 @@
-requests==2.31.0
-beautifulsoup4==4.12.2
-pillow==12.1.0
-numpy==2.3.0
-rembg==2.0.78
+requests
+beautifulsoup4
+pillow
+numpy
+opencv-python
+rembg

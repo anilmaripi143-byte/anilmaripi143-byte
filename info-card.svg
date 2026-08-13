@@ -1,42 +1,66 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="520" height="360" viewBox="0 0 520 360">
+<svg xmlns="http://www.w3.org/2000/svg" width="540" height="380" viewBox="0 0 540 380">
+  <style>
+    .card { fill: #0b1220; stroke: #1d2d44; stroke-width: 1.5px; rx: 14px; }
+    .dot-red { fill: #ff5f56; } .dot-yellow { fill: #ffbd2e; } .dot-green { fill: #27c93f; }
+    .text-base { font-family: Consolas, 'Courier New', Courier, monospace; font-size: 13px; fill: #c5d1ec; white-space: pre; }
+    .accent-hdr { fill: #39d353; font-weight: bold; }
+    .accent-lbl { fill: #7dd0fc; font-weight: bold; }
+    .separator { stroke: #577093; stroke-width: 1px; stroke-dasharray: 4 4; }
+  </style>
   <rect width="100%" height="100%" fill="#01080f" />
-  <rect x="8" y="8" width="504" height="344" rx="18" fill="#0b1220" stroke="#2d4a69" stroke-width="2" />
-  <g font-family="Courier New, Courier, monospace" font-size="15" fill="#cbd6ee">
-    <text x="24" y="30" fill="#7dd0fc" opacity="0" transform="translate(-16,0)">Anil Kumar
-      <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.2s" fill="freeze" />
-      <animate attributeName="transform" from="translate(-16,0)" to="translate(0,0)" dur="0.35s" begin="0.2s" fill="freeze" />
-    </text>
-    <text x="24" y="56" fill="#7dd0fc" opacity="0" transform="translate(-16,0)">@AnilkumarMaripi
-      <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.32s" fill="freeze" />
-      <animate attributeName="transform" from="translate(-16,0)" to="translate(0,0)" dur="0.35s" begin="0.32s" fill="freeze" />
-    </text>
-    <text x="24" y="82" fill="#cbd6ee" opacity="0" transform="translate(-16,0)">
-      <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.44s" fill="freeze" />
-      <animate attributeName="transform" from="translate(-16,0)" to="translate(0,0)" dur="0.35s" begin="0.44s" fill="freeze" />
-    </text>
-    <text x="24" y="108" fill="#cbd6ee" opacity="0" transform="translate(-16,0)">Role: AI & Data Science Student
-      <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.56s" fill="freeze" />
-      <animate attributeName="transform" from="translate(-16,0)" to="translate(0,0)" dur="0.35s" begin="0.56s" fill="freeze" />
-    </text>
-    <text x="24" y="134" fill="#cbd6ee" opacity="0" transform="translate(-16,0)">
-      <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.6799999999999999s" fill="freeze" />
-      <animate attributeName="transform" from="translate(-16,0)" to="translate(0,0)" dur="0.35s" begin="0.6799999999999999s" fill="freeze" />
-    </text>
-    <text x="24" y="160" fill="#cbd6ee" opacity="0" transform="translate(-16,0)">Languages: Python | Java | C | JavaScript
-      <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.8s" fill="freeze" />
-      <animate attributeName="transform" from="translate(-16,0)" to="translate(0,0)" dur="0.35s" begin="0.8s" fill="freeze" />
-    </text>
-    <text x="24" y="186" fill="#cbd6ee" opacity="0" transform="translate(-16,0)">Learning: Machine Learning | Data Structures & Algorithms | Operating Systems | Embedded Systems
-      <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.9199999999999999s" fill="freeze" />
-      <animate attributeName="transform" from="translate(-16,0)" to="translate(0,0)" dur="0.35s" begin="0.9199999999999999s" fill="freeze" />
-    </text>
-    <text x="24" y="212" fill="#cbd6ee" opacity="0" transform="translate(-16,0)">Projects: DevGram | AI/ML Projects | Web Development
-      <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="1.04s" fill="freeze" />
-      <animate attributeName="transform" from="translate(-16,0)" to="translate(0,0)" dur="0.35s" begin="1.04s" fill="freeze" />
-    </text>
-    <text x="24" y="238" fill="#cbd6ee" opacity="0" transform="translate(-16,0)">Tools: Git | GitHub | VS Code | Linux | Docker
-      <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="1.16s" fill="freeze" />
-      <animate attributeName="transform" from="translate(-16,0)" to="translate(0,0)" dur="0.35s" begin="1.16s" fill="freeze" />
-    </text>
+  <rect x="8" y="8" width="524" height="364" class="card" />
+  <!-- Window Title Bar Buttons -->
+  <circle cx="28" cy="26" r="6" class="dot-red" />
+  <circle cx="48" cy="26" r="6" class="dot-yellow" />
+  <circle cx="68" cy="26" r="6" class="dot-green" />
+  <g class="text-base">
+    <g transform="translate(-16, 0)" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.15s" fill="freeze" />
+      <animate attributeName="transform" from="translate(-16, 0)" to="translate(0, 0)" dur="0.35s" begin="0.15s" fill="freeze" />
+      <text x="28" y="62"><tspan class="accent-hdr">anil@github</tspan> <tspan fill="#c5d1ec">~ $ neofetch --profile</tspan></text>
+    </g>
+    <line x1="28" y1="82" x2="512" y2="82" class="separator" opacity="0">
+      <animate attributeName="opacity" from="0" to="0.6" dur="0.3s" begin="0.25s" fill="freeze" />
+    </line>
+    <g transform="translate(-16, 0)" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.35s" fill="freeze" />
+      <animate attributeName="transform" from="translate(-16, 0)" to="translate(0, 0)" dur="0.35s" begin="0.35s" fill="freeze" />
+      <text x="28" y="118"><tspan class="accent-lbl">OS        : </tspan><tspan fill="#c5d1ec">Windows 10/11 / Linux (WSL)</tspan></text>
+    </g>
+    <g transform="translate(-16, 0)" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.45s" fill="freeze" />
+      <animate attributeName="transform" from="translate(-16, 0)" to="translate(0, 0)" dur="0.35s" begin="0.45s" fill="freeze" />
+      <text x="28" y="146"><tspan class="accent-lbl">Host      : </tspan><tspan fill="#c5d1ec">KL University (AI &amp; Data Science)</tspan></text>
+    </g>
+    <g transform="translate(-16, 0)" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.55s" fill="freeze" />
+      <animate attributeName="transform" from="translate(-16, 0)" to="translate(0, 0)" dur="0.35s" begin="0.55s" fill="freeze" />
+      <text x="28" y="174"><tspan class="accent-lbl">User      : </tspan><tspan fill="#c5d1ec">Anil Kumar (@AnilkumarMaripi)</tspan></text>
+    </g>
+    <g transform="translate(-16, 0)" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.65s" fill="freeze" />
+      <animate attributeName="transform" from="translate(-16, 0)" to="translate(0, 0)" dur="0.35s" begin="0.65s" fill="freeze" />
+      <text x="28" y="202"><tspan class="accent-lbl">Role      : </tspan><tspan fill="#c5d1ec">AI &amp; Data Science Student</tspan></text>
+    </g>
+    <g transform="translate(-16, 0)" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.75s" fill="freeze" />
+      <animate attributeName="transform" from="translate(-16, 0)" to="translate(0, 0)" dur="0.35s" begin="0.75s" fill="freeze" />
+      <text x="28" y="230"><tspan class="accent-lbl">Languages : </tspan><tspan fill="#c5d1ec">Python, Java, C, JavaScript</tspan></text>
+    </g>
+    <g transform="translate(-16, 0)" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.85s" fill="freeze" />
+      <animate attributeName="transform" from="translate(-16, 0)" to="translate(0, 0)" dur="0.35s" begin="0.85s" fill="freeze" />
+      <text x="28" y="258"><tspan class="accent-lbl">Learning  : </tspan><tspan fill="#c5d1ec">Machine Learning, DSA, OS, Embedded Systems</tspan></text>
+    </g>
+    <g transform="translate(-16, 0)" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.95s" fill="freeze" />
+      <animate attributeName="transform" from="translate(-16, 0)" to="translate(0, 0)" dur="0.35s" begin="0.95s" fill="freeze" />
+      <text x="28" y="286"><tspan class="accent-lbl">Tools     : </tspan><tspan fill="#c5d1ec">Git, GitHub, VS Code, Linux</tspan></text>
+    </g>
+    <g transform="translate(-16, 0)" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="1.05s" fill="freeze" />
+      <animate attributeName="transform" from="translate(-16, 0)" to="translate(0, 0)" dur="0.35s" begin="1.05s" fill="freeze" />
+      <text x="28" y="314"><tspan class="accent-lbl">Projects  : </tspan><tspan fill="#c5d1ec">DevGram, AI/ML Projects, Web Apps</tspan></text>
+    </g>
   </g>
 </svg>

@@ -1,160 +1,183 @@
 import json
 import re
 from collections import defaultdict
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
+import sys
 
 import requests
 from bs4 import BeautifulSoup
 
+USERNAME = "AnilkumarMaripi"
+URL = f"https://github.com/users/{USERNAME}/contributions"
 
-def parse_tooltip_count(tooltip_text: str, level: str | None) -> int:
-    if not tooltip_text:
-        return 0 if level in (None, "0") else 1
 
-    cleaned = tooltip_text.strip()
-    if not cleaned:
-        return 0 if level in (None, "0") else 1
-
-    lowered = cleaned.lower()
-    if lowered.startswith("no contributions"):
+def parse_tooltip_text(text: str) -> int:
+    if not text:
         return 0
-
-    match = re.search(r"(\d+)\s+contribution", lowered)
+    cleaned = text.strip().lower()
+    if "no contribution" in cleaned:
+        return 0
+    match = re.search(r"(\d+)\s+contribution", cleaned)
     if match:
         return int(match.group(1))
-
-    return 0 if level in (None, "0") else 1
+    return 0
 
 
 def parse_contribution_cells(html: str) -> list[dict]:
     soup = BeautifulSoup(html, "html.parser")
-    tooltip_by_for = {}
-    for tooltip in soup.find_all("tool-tip"):
-        target_id = tooltip.get("for")
-        if not target_id:
-            continue
-        tooltip_by_for[target_id] = tooltip.get_text(" ", strip=True)
-
     cells = []
-    for td in soup.select("td.ContributionCalendar-day[data-date]"):
-        date_value = td.get("data-date")
-        level_value = td.get("data-level")
-        count = parse_tooltip_count(tooltip_by_for.get(td.get("id"), ""), level_value)
-        if not date_value:
-            continue
-        cells.append(
-            {
-                "date": date_value,
-                "count": count,
-                "level": level_value,
-            }
-        )
 
+    # Map tooltips by target ID (for="contribution-day-component-...")
+    tooltip_map = {}
+    for tt in soup.select("tool-tip"):
+        for_id = tt.get("for")
+        if for_id:
+            tooltip_map[for_id] = tt.get_text(" ", strip=True)
+
+    # Primary strategy: td.ContributionCalendar-day[data-date]
+    td_days = soup.select("td.ContributionCalendar-day[data-date]")
+    if td_days:
+        for td in td_days:
+            date_val = td.get("data-date")
+            if not date_val:
+                continue
+            level_val = td.get("data-level") or "0"
+            elem_id = td.get("id") or ""
+            
+            tooltip_str = tooltip_map.get(elem_id, "") or td.get("aria-label", "")
+            count = parse_tooltip_text(tooltip_str)
+
+            # If count couldn't be parsed from tooltip text but data-count or data-level exists
+            if count == 0 and td.get("data-count"):
+                try:
+                    count = int(td.get("data-count"))
+                except ValueError:
+                    pass
+
+            cells.append({
+                "date": date_val,
+                "count": count,
+                "level": level_val
+            })
+
+    # Fallback strategy: rect[data-date] (older GitHub markup)
     if not cells:
-        for rect in soup.select("rect[data-date][data-count]"):
-            date_value = rect.get("data-date")
-            count_value = rect.get("data-count")
-            level_value = rect.get("data-level") or rect.get("fill")
-            if not date_value or count_value is None:
+        rect_days = soup.select("rect[data-date]")
+        for rect in rect_days:
+            date_val = rect.get("data-date")
+            if not date_val:
                 continue
-            try:
-                count = int(count_value)
-            except ValueError:
-                continue
-            cells.append(
-                {
-                    "date": date_value,
-                    "count": count,
-                    "level": level_value,
-                }
-            )
+            level_val = rect.get("data-level") or "0"
+            count_val = rect.get("data-count")
+            aria_label = rect.get("aria-label", "")
+            title_elem = rect.find("title")
+            tooltip_str = aria_label or (title_elem.get_text(" ", strip=True) if title_elem else "")
+
+            if count_val is not None:
+                try:
+                    count = int(count_val)
+                except ValueError:
+                    count = parse_tooltip_text(tooltip_str)
+            else:
+                count = parse_tooltip_text(tooltip_str)
+
+            cells.append({
+                "date": date_val,
+                "count": count,
+                "level": level_val
+            })
 
     return cells
 
 
-def calculate_streaks(cells: list[dict]) -> dict:
+def calculate_statistics(cells: list[dict]) -> dict:
     if not cells:
         return {
+            "total_contributions": 0,
             "current_streak": 0,
             "longest_streak": 0,
             "best_day": None,
-            "total_contributions": 0,
-            "monthly_totals": {},
+            "monthly_totals": {}
         }
 
-    sorted_cells = sorted(cells, key=lambda item: item["date"])
-    total = sum(item["count"] for item in sorted_cells)
-    today = datetime.strptime(sorted_cells[-1]["date"], "%Y-%m-%d").date()
-    streak = 0
-    longest = 0
-    current = 0
-    best_day = max(sorted_cells, key=lambda item: item["count"])
-    prev_date = None
+    sorted_cells = sorted(cells, key=lambda c: c["date"])
+    total_contributions = sum(c["count"] for c in sorted_cells)
+    best_day = max(sorted_cells, key=lambda c: c["count"])
+
     monthly_totals = defaultdict(int)
+    for c in sorted_cells:
+        month_key = c["date"][:7]  # YYYY-MM
+        monthly_totals[month_key] += c["count"]
 
-    for cell in sorted_cells:
-        date_obj = datetime.strptime(cell["date"], "%Y-%m-%d").date()
-        monthly_totals[date_obj.strftime("%Y-%m")] += cell["count"]
-        if prev_date is None:
-            streak = 1 if cell["count"] > 0 else 0
+    # Calculate streaks
+    longest_streak = 0
+    running_streak = 0
+
+    for c in sorted_cells:
+        if c["count"] > 0:
+            running_streak += 1
+            if running_streak > longest_streak:
+                longest_streak = running_streak
         else:
-            if date_obj == prev_date + timedelta(days=1) and cell["count"] > 0:
-                streak += 1
-            elif date_obj == prev_date + timedelta(days=1):
-                streak = 0
-            else:
-                streak = 1 if cell["count"] > 0 else 0
-        longest = max(longest, streak)
-        prev_date = date_obj
-    current = 0
-    check_date = today
-    counts_by_date = {cell["date"]: cell["count"] for cell in sorted_cells}
-    while True:
-        count = counts_by_date.get(check_date.isoformat(), 0)
-        if count > 0:
-            current += 1
-            check_date -= timedelta(days=1)
-        else:
-            break
+            running_streak = 0
+
+    # Current streak calculation working backward from the latest day
+    current_streak = 0
+    # Check if latest day or yesterday has contributions
+    idx = len(sorted_cells) - 1
+    # Allow current day to be 0 if yesterday was > 0
+    if idx >= 0 and sorted_cells[idx]["count"] == 0 and idx > 0 and sorted_cells[idx - 1]["count"] > 0:
+        idx -= 1
+
+    while idx >= 0 and sorted_cells[idx]["count"] > 0:
+        current_streak += 1
+        idx -= 1
 
     return {
-        "current_streak": current,
-        "longest_streak": longest,
+        "total_contributions": total_contributions,
+        "current_streak": current_streak,
+        "longest_streak": longest_streak,
         "best_day": best_day,
-        "total_contributions": total,
-        "monthly_totals": dict(monthly_totals),
-    }
-
-
-def build_output(cells: list[dict]) -> dict:
-    stats = calculate_streaks(cells)
-    return {
-        "generated_at": datetime.utcnow().isoformat() + "Z",
-        "username": "AnilkumarMaripi",
-        "total_contributions": stats["total_contributions"],
-        "current_streak": stats["current_streak"],
-        "longest_streak": stats["longest_streak"],
-        "best_day": stats["best_day"],
-        "monthly_totals": stats["monthly_totals"],
-        "cells": cells,
+        "monthly_totals": dict(monthly_totals)
     }
 
 
 def main() -> None:
     repo_root = Path(__file__).resolve().parent.parent
-    url = "https://github.com/users/AnilkumarMaripi/contributions"
-    response = requests.get(url, timeout=20)
+    output_path = repo_root / "data" / "contributions.json"
+
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    }
+
+    print(f"Fetching contribution data from: {URL}")
+    response = requests.get(URL, headers=headers, timeout=20)
     if response.status_code != 200:
-        raise SystemExit(f"GitHub returned {response.status_code} when fetching contributions page.")
+        print(f"ERROR: GitHub returned HTTP {response.status_code}")
+        sys.exit(1)
 
     cells = parse_contribution_cells(response.text)
     if not cells:
-        raise SystemExit("Unable to parse GitHub contribution cells. The page structure may have changed.")
+        print("ERROR: Failed to parse GitHub contribution cells. HTML layout may have changed.")
+        sys.exit(1)
 
-    data = build_output(cells)
-    output_path = repo_root / "data" / "contributions.json"
+    stats = calculate_statistics(cells)
+
+    data = {
+        "username": USERNAME,
+        "fetched_at": datetime.now(timezone.utc).isoformat(),
+        "total_contributions": stats["total_contributions"],
+        "current_streak": stats["current_streak"],
+        "longest_streak": stats["longest_streak"],
+        "best_day": stats["best_day"],
+        "monthly_totals": stats["monthly_totals"],
+        "cells": cells
+    }
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+    print(f"Successfully fetched {len(cells)} cells. Total contributions: {stats['total_contributions']}.")
     print(f"Saved contribution data to: {output_path}")
 
 
