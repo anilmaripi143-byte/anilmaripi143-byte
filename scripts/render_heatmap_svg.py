@@ -137,7 +137,7 @@ def render_heatmap_svg(data: dict, output_path: Path) -> None:
 
     # Real statistics
     stat_line_1 = f"{total} contributions in the last year"
-    stat_line_2 = f"Current streak: {current_streak} days  |  Longest streak: {longest_streak} days"
+    stat_line_2 = f"Current streak: {current_streak} {'day' if current_streak == 1 else 'days'}  |  Longest streak: {longest_streak} {'day' if longest_streak == 1 else 'days'}"
 
     svg.append(f'  <text x="{actual_width - MARGIN_X}" y="{legend_y}" class="txt" text-anchor="end">{stat_line_1}</text>')
     svg.append(f'  <text x="{actual_width - MARGIN_X}" y="{legend_y + 20}" class="txt" text-anchor="end">{stat_line_2}</text>')
