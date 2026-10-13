@@ -1,3 +1,4 @@
+import os
 import json
 import re
 from collections import defaultdict
@@ -8,7 +9,7 @@ import sys
 import requests
 from bs4 import BeautifulSoup
 
-USERNAME = "AnilkumarMaripi"
+USERNAME = os.environ.get("GITHUB_REPOSITORY_OWNER", "anilmaripi143-byte")
 URL = f"https://github.com/users/{USERNAME}/contributions"
 
 

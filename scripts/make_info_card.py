@@ -9,7 +9,7 @@ HEADER_CMD = "~ $ neofetch --profile"
 INFO_LINES = [
     ("OS", "Windows 10/11 / Linux (WSL)"),
     ("Host", "KL University (AI & Data Science)"),
-    ("User", "Anil Kumar (@AnilkumarMaripi)"),
+    ("User", "Anil Kumar (@anilmaripi143-byte)"),
     ("Role", "AI & Data Science Student"),
     ("Languages", "Python, Java, C, JavaScript"),
     ("Learning", "Machine Learning, DSA, OS, Embedded Systems"),

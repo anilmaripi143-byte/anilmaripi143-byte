@@ -59,5 +59,5 @@ AI & Data Science student passionate about software engineering, machine learnin
 ---
 
 <div align="center">
-  <sub>Powered by Python 3.12 &amp; Pure SVG Animations &bull; Built by <a href="https://github.com/AnilkumarMaripi">Anil Kumar</a></sub>
+  <sub>Powered by Python 3.12 &amp; Pure SVG Animations &bull; Built by <a href="https://github.com/anilmaripi143-byte">Anil Kumar</a></sub>
 </div>

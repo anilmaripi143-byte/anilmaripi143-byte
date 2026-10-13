@@ -35,7 +35,7 @@
     <g transform="translate(-16, 0)" opacity="0">
       <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.55s" fill="freeze" />
       <animate attributeName="transform" from="translate(-16, 0)" to="translate(0, 0)" dur="0.35s" begin="0.55s" fill="freeze" />
-      <text x="28" y="190"><tspan class="accent-lbl">User      : </tspan><tspan fill="#c5d1ec">Anil Kumar (@AnilkumarMaripi)</tspan></text>
+      <text x="28" y="190"><tspan class="accent-lbl">User      : </tspan><tspan fill="#c5d1ec">Anil Kumar (@anilmaripi143-byte)</tspan></text>
     </g>
     <g transform="translate(-16, 0)" opacity="0">
       <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.65s" fill="freeze" />
