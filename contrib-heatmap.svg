@@ -1113,6 +1113,9 @@
     <rect x="820" y="85" width="12" height="12" rx="3" fill="#161b22" opacity="0">
       <animate attributeName="opacity" from="0" to="1" dur="0.25s" begin="0.648s" fill="freeze" />
     </rect>
+    <rect x="820" y="100" width="12" height="12" rx="3" fill="#161b22" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" dur="0.25s" begin="0.66s" fill="freeze" />
+    </rect>
   </g>
   <text x="40" y="188" class="lbl">Less</text>
   <rect x="75" y="178" width="12" height="12" rx="3" fill="#161b22" />
@@ -1123,5 +1126,5 @@
   <rect x="150" y="178" width="12" height="12" rx="3" fill="#69f0a0" />
   <text x="173" y="188" class="lbl">More</text>
   <text x="835" y="188" class="txt" text-anchor="end">4 contributions in the last year</text>
-  <text x="835" y="208" class="txt" text-anchor="end">Current streak: 1 day  |  Longest streak: 1 day</text>
+  <text x="835" y="208" class="txt" text-anchor="end">Current streak: 0 days  |  Longest streak: 1 day</text>
 </svg>
