@@ -1122,6 +1122,9 @@
     <rect x="820" y="130" width="12" height="12" rx="3" fill="#161b22" opacity="0">
       <animate attributeName="opacity" from="0" to="1" dur="0.25s" begin="0.684s" fill="freeze" />
     </rect>
+    <rect x="820" y="145" width="12" height="12" rx="3" fill="#161b22" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" dur="0.25s" begin="0.696s" fill="freeze" />
+    </rect>
   </g>
   <text x="40" y="188" class="lbl">Less</text>
   <rect x="75" y="178" width="12" height="12" rx="3" fill="#161b22" />
